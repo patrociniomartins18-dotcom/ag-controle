@@ -1,0 +1,15 @@
+{
+  "name": "AG Controle de Vendas",
+  "short_name": "AG Vendas",
+  "description": "Controle de vendas, estoque, caixa e entregas.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#070d1d",
+  "theme_color": "#070d1d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

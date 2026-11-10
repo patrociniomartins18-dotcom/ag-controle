@@ -1,0 +1,5 @@
+node_modules/
+_teste*
+ag-controle-vendas-backup-*.json
+*.backup.json
+.env

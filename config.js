@@ -2,6 +2,6 @@
    a segurança dos dados está nas regras do banco (RLS) e no login.
    Deixe vazio para usar o app só neste aparelho, sem conta. */
 window.AGV_CONFIG = {
-  SUPABASE_URL: '',
-  SUPABASE_ANON_KEY: ''
+  SUPABASE_URL: 'https://piaewfawkcgbkurvjftz.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_DExcc6iclvy32UHIMgmk2w_kW6GnaQC'
 };

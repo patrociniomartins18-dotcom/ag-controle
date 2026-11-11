@@ -25,7 +25,7 @@ jobs:
       - name: Montar a pasta do site
         run: |
           mkdir site
-          cp index.html sw.js manifest.json icon.svg supabase.js config.js site/
+          cp index.html sw.js manifest.json supabase.js config.js logo.png favicon.ico icon-192.png icon-512.png icon-maskable-512.png apple-touch-icon.png site/
           touch site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

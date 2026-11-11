@@ -1,4 +1,4 @@
-var CACHE_NAME = 'ag-controle-vendas-v5';
+var CACHE_NAME = 'ag-controle-vendas-v6';
 var NUCLEO = ['./', './index.html', './manifest.json', './icon.svg', './supabase.js', './config.js'];
 /* Recursos externos que o app usa (estilo, fontes e mapas): guardados para funcionar sem internet depois do primeiro acesso. */
 var HOSTS_CACHE = ['cdn.tailwindcss.com', 'fonts.googleapis.com', 'fonts.gstatic.com', 'cdn.jsdelivr.net', 'server.arcgisonline.com'];

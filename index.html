@@ -202,6 +202,16 @@
     .icon-btn { width: 40px; height: 40px; }
     .btn-primary, .btn-accent, .btn-outline { min-height: 42px; }
 
+    /* cabeçalho do topo: menu à esquerda, logo no centro, ícones à direita */
+    body > div > header { position: sticky; min-height: 60px; padding: 8px 10px !important; }
+    #topbar-esq { width: auto !important; max-width: none !important; flex: 0 0 auto; gap: 0 !important; }
+    #topbar-esq #btn-hamburger { margin-left: 0; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
+    #topbar-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; pointer-events: none; }
+    #topbar-logo img { height: 40px; max-width: 120px; }
+    #topbar-dir { gap: 2px !important; }
+    #topbar-dir > button { width: 40px; height: 40px; padding: 0 !important; display: flex; align-items: center; justify-content: center; }
+    #topbar-dir #btn-usuario-mobile { width: 36px; height: 36px; margin-left: 2px; }
+
     /* cabeçalhos e cartões de resumo mais compactos */
     section.view > div:first-child p.text-body-sm, section.view > div:first-child p.text-body-md, section.view > div:first-child p.font-body-sm, section.view > div:first-child p.font-body-md { display: none; }
     #vendas-kpi-cards, #dash-cards, #caixa-cards, #dados-status-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
@@ -479,7 +489,7 @@
 <div class="flex-grow flex flex-col min-h-screen overflow-hidden">
 <!-- TopNavBar -->
 <header class="bg-midnight-void/85 backdrop-blur-2xl flex justify-between items-center w-full px-gutter-mobile md:px-gutter-desktop py-stack-md border-b border-white/[0.06] shrink-0 z-10 sticky top-0 shadow-sm">
-<div class="flex items-center gap-4 w-full max-w-md">
+<div class="flex items-center gap-4 w-full max-w-md" id="topbar-esq">
 <button class="md:hidden text-on-surface-variant p-2 -ml-2 rounded hover:bg-white/[0.06] transition-colors" id="btn-hamburger">
 <span class="material-symbols-outlined">menu</span>
 </button>
@@ -492,12 +502,11 @@
 <button class="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-on-surface-variant hover:bg-royal-blue/20 hover:text-white hover:border-royal-blue/40 text-label-sm font-label-sm transition-all" id="btn-chip-balcao" title="Vendas com retirada em loja">Vendas Balcão</button>
 <button class="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/[0.06] text-on-surface-variant hover:bg-royal-blue/20 hover:text-white hover:border-royal-blue/40 text-label-sm font-label-sm transition-all" id="btn-chip-expedicao" title="Ir para Controle de Entregas">Expedição</button>
 </div>
-<div class="md:hidden flex items-center gap-2 min-w-0">
-<img id="logo-topbar" alt="AG Variedades" class="w-7 h-7 rounded-full object-cover shrink-0 border border-solar-gold/40"/>
-<h1 class="text-headline-lg-mobile font-headline-lg-mobile font-extrabold text-solar-gold truncate">AG Controle Vendas</h1>
+<div class="md:hidden" id="topbar-logo">
+<img id="logo-topbar" alt="AG" class="h-10 w-auto object-contain"/>
 </div>
 </div>
-<div class="flex items-center gap-2 sm:gap-4 shrink-0">
+<div class="flex items-center gap-2 sm:gap-4 shrink-0" id="topbar-dir">
 <button class="relative p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all" id="btn-notificacoes" title="Alertas">
 <span class="material-symbols-outlined text-[20px]">notifications</span>
 <span class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-solar-gold ring-2 ring-midnight-void shadow-[0_0_8px_rgba(245,179,1,0.9)]" id="notif-dot"></span>

@@ -190,6 +190,65 @@
   .pesq-item.sel { color: #f5b301; font-weight: 700; }
   .pesq-item.limpar { color: #94a3b8; font-style: italic; }
   .pesq-vazio-msg { padding: 14px 12px; font-size: 12px; color: #94a3b8; }
+
+  /* ================= CELULAR ================= */
+  .bottom-nav { display: none; }
+  @media (max-width: 767px) {
+    body { height: 100dvh; }
+    main { padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important; }
+    input, select, textarea { font-size: 16px !important; }
+    main .text-headline-xl, main h1.text-headline-lg-mobile { font-size: 26px !important; line-height: 1.15 !important; }
+    main .text-headline-lg { font-size: 22px !important; line-height: 1.2 !important; }
+    .icon-btn { width: 40px; height: 40px; }
+    .btn-primary, .btn-accent, .btn-outline { min-height: 42px; }
+
+    /* cabeçalhos e cartões de resumo mais compactos */
+    section.view > div:first-child p.text-body-sm, section.view > div:first-child p.text-body-md, section.view > div:first-child p.font-body-sm, section.view > div:first-child p.font-body-md { display: none; }
+    #vendas-kpi-cards, #dash-cards, #caixa-cards, #dados-status-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+    #vendas-kpi-cards > div, #dash-cards > div, #caixa-cards > div, #dados-status-cards > div { padding: 12px !important; min-width: 0; }
+    #vendas-kpi-cards .text-headline-md, #dash-cards .text-headline-md, #caixa-cards .text-headline-md, #dados-status-cards .text-headline-md, #vendas-kpi-cards .text-headline-lg, #dash-cards .text-headline-lg, #caixa-cards .text-headline-lg { font-size: 17px !important; line-height: 1.2 !important; word-break: break-word; }
+    #vendas-kpi-cards .w-9.h-9, #dash-cards .w-9.h-9, #caixa-cards .w-9.h-9 { display: none; }
+    #vendas-kpi-cards p.text-label-sm, #dash-cards p.text-label-sm, #caixa-cards p.text-label-sm { font-size: 10px !important; }
+
+    /* barra de navegação inferior */
+    .bottom-nav { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; height: calc(64px + env(safe-area-inset-bottom)); padding: 0 6px env(safe-area-inset-bottom); background: rgba(9,16,32,0.97); backdrop-filter: blur(14px); border-top: 1px solid rgba(255,255,255,0.08); align-items: center; justify-content: space-around; }
+    .bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 100%; background: none; border: 0; color: #8b95a7; font: 600 10px 'Hanken Grotesk', sans-serif; cursor: pointer; }
+    .bn-item .material-symbols-outlined { font-size: 24px; }
+    .bn-item.on { color: #f5b301; }
+    .bn-item.on .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+    .bn-nova { flex: none; width: 56px; height: 56px; margin-top: -24px; border-radius: 50%; border: 3px solid #070d1d; background: linear-gradient(135deg, #f5b301, #ffcc00); color: #2c1d00; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(245,179,1,0.45); cursor: pointer; }
+    .bn-nova .material-symbols-outlined { font-size: 30px; font-weight: 700; }
+    .bn-produtos { display: none; }
+    body.papel-funcionario .bn-produtos { display: flex; }
+    .sync-pill { bottom: calc(74px + env(safe-area-inset-bottom)); }
+    .toast { left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); }
+
+    /* janelas (modais) ocupam a tela inteira */
+    .modal-overlay { padding: 0; align-items: flex-start; }
+    .modal-overlay > div { margin: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 100%; border-radius: 0 !important; padding: 18px 16px 24px !important; overflow: visible !important; }
+    #pedido-acoes { position: sticky; bottom: 0; z-index: 5; margin: 20px -16px -24px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(9,16,32,0.97); border-top: 1px solid rgba(255,255,255,0.1); gap: 8px; }
+    #pedido-acoes > button { flex: 1 1 auto; justify-content: center; }
+    #pedido-acoes #btn-cancel-pedido { display: none; }
+
+    /* tabelas viram cartões */
+    main table.tabela-cel { min-width: 0 !important; width: 100% !important; border-collapse: separate !important; }
+    main table.tabela-cel thead { display: none; }
+    main table.tabela-cel, main table.tabela-cel tbody, main table.tabela-cel tfoot, main table.tabela-cel tr { display: block; width: 100%; }
+    main table.tabela-cel tr { background: rgba(255,255,255,0.035) !important; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 14px; padding: 8px 12px; margin-bottom: 10px; }
+    main table.tabela-cel td, main table.tabela-cel tfoot th { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; padding: 6px 0 !important; border: 0 !important; text-align: right !important; }
+    main table.tabela-cel td::before, main table.tabela-cel tfoot th::before { content: attr(data-label); flex: none; max-width: 45%; text-align: left; font: 700 10px 'Hanken Grotesk', sans-serif; letter-spacing: .06em; text-transform: uppercase; color: #8b95a7; }
+    main table.tabela-cel td[data-label=""]::before, main table.tabela-cel th[data-label=""]::before { display: none; }
+    main table.tabela-cel td:first-child { display: block; text-align: left !important; font-size: 15px; font-weight: 700; color: #fff; padding-bottom: 8px !important; margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.07) !important; }
+    main table.tabela-cel td:first-child::before { display: none; }
+    main table.tabela-cel td[colspan] { display: block; text-align: center !important; border-bottom: 0 !important; }
+    main table.tabela-cel td:has(> input), main table.tabela-cel td:has(> select), main table.tabela-cel td:has(> .pesq-btn) { flex-direction: column; align-items: stretch; text-align: left !important; gap: 4px; }
+    main table.tabela-cel td:has(> input)::before, main table.tabela-cel td:has(> select)::before, main table.tabela-cel td:has(> .pesq-btn)::before { max-width: none; }
+    main table.tabela-cel td:last-child:has(button) { justify-content: flex-end; padding-top: 8px !important; }
+    main table.tabela-cel td:last-child:has(button)::before { display: none; }
+    main table.tabela-cel td:last-child:has(button) > div { justify-content: flex-end; flex-wrap: wrap; }
+    main .overflow-x-auto:has(> table.tabela-cel) { overflow-x: visible; }
+    main table.tabela-cel tfoot tr { background: rgba(245,179,1,0.06) !important; border-color: rgba(245,179,1,0.3) !important; }
+  }
   .tela-acesso { position: fixed; inset: 0; z-index: 200000; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; background: radial-gradient(1200px 600px at 20% -10%, rgba(0,82,204,0.35), transparent), radial-gradient(900px 500px at 100% 110%, rgba(245,179,1,0.18), transparent), #070d1d; }
   .tela-acesso.hidden { display: none !important; }
   .acesso-card { width: 100%; max-width: 400px; background: rgba(255,255,255,0.04); border: 1px solid rgba(245,179,1,0.3); border-radius: 20px; padding: 28px 24px; box-shadow: 0 24px 70px rgba(0,0,0,0.55); }
@@ -1249,7 +1308,7 @@
 <div class="border-r border-white/[0.08] last:border-r-0 sm:border-r so-dono"><span class="text-label-sm text-on-surface-variant uppercase tracking-wide font-bold">Lucro estimado</span><b class="block text-headline-md font-black mt-1" style="color:#10b981;" id="pv-lucro">R$ 0,00</b></div>
 <div class="so-dono"><span class="text-label-sm text-on-surface-variant uppercase tracking-wide font-bold">Margem</span><b class="block text-headline-md font-black text-solar-gold mt-1" id="pv-margem">0%</b></div>
 </div>
-<div class="flex gap-4 flex-wrap mt-7">
+<div class="flex gap-4 flex-wrap mt-7" id="pedido-acoes">
 <button type="submit" class="btn-primary" id="pedido-submit-btn">Salvar Venda</button>
 <button type="button" class="btn-accent" id="btn-gerar-orcamento"><span class="material-symbols-outlined text-[18px]">receipt_long</span>Gerar Orçamento</button>
 <button type="button" class="btn-outline" id="btn-cancel-pedido">Cancelar</button>
@@ -1497,6 +1556,15 @@
 </div>
 </div>
 </div>
+
+<nav id="bottom-nav" class="bottom-nav" aria-label="Navegação">
+<button type="button" class="bn-item" data-view="dashboard"><span class="material-symbols-outlined">dashboard</span>Painel</button>
+<button type="button" class="bn-item bn-produtos" data-view="produtos"><span class="material-symbols-outlined">inventory_2</span>Produtos</button>
+<button type="button" class="bn-item" data-view="pedidos"><span class="material-symbols-outlined">receipt_long</span>Vendas</button>
+<button type="button" class="bn-nova" id="bn-nova-venda" aria-label="Nova venda"><span class="material-symbols-outlined">add</span></button>
+<button type="button" class="bn-item" data-view="entregas"><span class="material-symbols-outlined">local_shipping</span>Entregas</button>
+<button type="button" class="bn-item" id="bn-menu"><span class="material-symbols-outlined">menu</span>Menu</button>
+</nav>
 
 <!-- ============ ACESSO (LOGIN) ============ -->
 <div id="tela-acesso" class="tela-acesso hidden">
@@ -1913,6 +1981,7 @@
   var navButtons = document.querySelectorAll('#nav button, ul button[data-view="dados"]');
   function goToView(viewName){
     viewName = viewPermitida(viewName);
+    marcarBottomNav(viewName);
     navButtons.forEach(function(b){
       var isActive = b.dataset.view === viewName;
       b.classList.toggle('nav-item-active', isActive);
@@ -6825,6 +6894,50 @@
   }
   iniciarAcesso();
 
+
+  /* ================= CELULAR: barra inferior e tabelas em cartões ================= */
+  function marcarBottomNav(v){
+    document.querySelectorAll('#bottom-nav [data-view]').forEach(function(b){ b.classList.toggle('on', b.dataset.view === v); });
+  }
+  (function(){
+    var bn = document.getElementById('bottom-nav');
+    if (!bn) return;
+    bn.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click', function(){ goToView(b.dataset.view); }); });
+    document.getElementById('bn-nova-venda').addEventListener('click', function(){ document.getElementById('btn-nova-venda-sidebar').click(); });
+    document.getElementById('bn-menu').addEventListener('click', openSidebar);
+    marcarBottomNav(viewAtiva());
+  })();
+  function rotularTabela(t){
+    var cab = (t.tHead && t.tHead.rows[0]) ? Array.prototype.map.call(t.tHead.rows[0].cells, function(c){ return c.textContent.replace(/\s+/g, ' ').trim(); }) : [];
+    var linhas = [];
+    Array.prototype.forEach.call(t.tBodies, function(tb){ Array.prototype.forEach.call(tb.rows, function(r){ linhas.push(r); }); });
+    if (t.tFoot) Array.prototype.forEach.call(t.tFoot.rows, function(r){ linhas.push(r); });
+    linhas.forEach(function(r){
+      var i = 0;
+      Array.prototype.forEach.call(r.cells, function(c){
+        var span = c.colSpan || 1;
+        var rot = span > 1 ? '' : (cab[i] || '');
+        if (c.getAttribute('data-label') !== rot) c.setAttribute('data-label', rot);
+        i += span;
+      });
+    });
+  }
+  function prepararTabelasCelular(){
+    document.querySelectorAll('main table').forEach(function(t){
+      if (!t.classList.contains('tabela-cel')) t.classList.add('tabela-cel');
+      rotularTabela(t);
+    });
+  }
+  (function(){
+    var m = document.querySelector('main'), pend = false;
+    if (!m || !window.MutationObserver) return;
+    new MutationObserver(function(){
+      if (pend) return;
+      pend = true;
+      setTimeout(function(){ pend = false; prepararTabelasCelular(); }, 0);
+    }).observe(m, { childList: true, subtree: true });
+    prepararTabelasCelular();
+  })();
 
   /* ---------------- RENDER ALL ---------------- */
   function renderAll(){

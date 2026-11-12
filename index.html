@@ -271,7 +271,8 @@
     main table.tabela-cel td:last-child:has(button)::before { display: none; }
     main table.tabela-cel td:last-child:has(button) > div { justify-content: flex-end; flex-wrap: wrap; }
     main .overflow-x-auto:has(> table.tabela-cel) { overflow-x: visible; }
-    main table.tabela-cel tfoot tr { background: rgba(245,179,1,0.06) !important; border-color: rgba(245,179,1,0.3) !important; }
+    main table.tabela-cel tfoot tr, main table.tabela-cel tr.material-total { background: rgba(245,179,1,0.06) !important; border-color: rgba(245,179,1,0.3) !important; }
+    main table.tabela-cel tr.material-total td.material-vazio { display: none; }
   }
   .tela-acesso { position: fixed; inset: 0; z-index: 200000; display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; background: radial-gradient(1200px 600px at 20% -10%, rgba(0,82,204,0.35), transparent), radial-gradient(900px 500px at 100% 110%, rgba(245,179,1,0.18), transparent), #070d1d; }
   .tela-acesso.hidden { display: none !important; }
@@ -1013,6 +1014,7 @@
 <th class="py-3 px-4 font-semibold text-center">Necessário</th>
 <th class="py-3 px-4 font-semibold text-center">Em estoque</th>
 <th class="py-3 px-4 font-semibold text-center">Faltando</th>
+<th class="py-3 px-4 font-semibold text-center">Sobrando</th>
 </tr>
 </thead>
 <tbody class="text-body-sm divide-y divide-white/[0.04]" id="material-dia-tbody"></tbody>
@@ -2635,21 +2637,32 @@
         : 'Estoque necessário para as entregas do dia selecionado (considera todas as cidades).';
     }
     if (lista.length === 0){
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-row">' + emptyStateHtml('inventory_2', 'Nenhum material necessário para este período.') + '</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-row">' + emptyStateHtml('inventory_2', 'Nenhum material necessário para este período.') + '</td></tr>';
       return;
     }
+    var totNec = 0, totFalta = 0, totSobra = 0;
     tbody.innerHTML = lista.map(function(m, i){
       var key = m.produto + '|' + m.cor;
       var emEstoque = estoqueHoje[key] !== undefined ? estoqueHoje[key] : '';
       var faltando = Math.max(0, m.qtd - (Number(emEstoque) || 0));
+      var sobrando = Math.max(0, (Number(emEstoque) || 0) - m.qtd);
+      totNec += m.qtd; totFalta += faltando; totSobra += sobrando;
       return '<tr class="tr-hover ' + (i % 2 ? 'bg-surface' : '') + '">' +
         '<td class="py-3 px-4 font-medium text-on-background">' + escapeHtml(m.produto) + '</td>' +
         '<td class="py-3 px-4 text-on-surface-variant">' + (m.cor ? corDotHtml(m.cor) + escapeHtml(m.cor) : '<span class="text-on-surface-variant">&mdash;</span>') + '</td>' +
         '<td class="py-3 px-4 text-center font-semibold">' + m.qtd + '</td>' +
         '<td class="py-3 px-4 text-center"><input type="number" min="0" step="1" class="form-input !py-1.5 !text-body-sm !w-24 mx-auto text-center material-estoque-input" data-key="' + escapeHtml(key) + '" value="' + escapeHtml(String(emEstoque)) + '"></td>' +
         '<td class="py-3 px-4 text-center font-semibold" style="color:' + (faltando > 0 ? '#ef4444' : '#10b981') + ';">' + faltando + '</td>' +
+        '<td class="py-3 px-4 text-center font-semibold" style="color:' + (sobrando > 0 ? '#38bdf8' : '#8b95a7') + ';">' + sobrando + '</td>' +
       '</tr>';
-    }).join('');
+    }).join('') +
+    '<tr class="material-total" style="background:rgba(245,179,1,0.06);">' +
+      '<td colspan="2" class="py-3 px-4 font-bold text-on-background" style="text-align:left !important;">Total <span class="text-on-surface-variant font-normal">&middot; ' + lista.length + (lista.length === 1 ? ' item' : ' itens') + '</span></td>' +
+      '<td class="py-3 px-4 text-center font-bold">' + totNec + '</td>' +
+      '<td class="py-3 px-4 material-vazio"></td>' +
+      '<td class="py-3 px-4 text-center font-bold" style="color:' + (totFalta > 0 ? '#ef4444' : '#10b981') + ';">' + totFalta + '</td>' +
+      '<td class="py-3 px-4 text-center font-bold" style="color:' + (totSobra > 0 ? '#38bdf8' : '#8b95a7') + ';">' + totSobra + '</td>' +
+    '</tr>';
     tbody.querySelectorAll('.material-estoque-input').forEach(function(inp){
       inp.addEventListener('change', function(){ setEstoqueDia(rangeKey, inp.dataset.key, inp.value); });
     });
@@ -5202,20 +5215,31 @@
     var periodoLabel = dias > 1
       ? (dataFmt + ' a ' + addDays(iso, dias - 1).split('-').reverse().join('/') + ' (' + dias + ' dias)')
       : (WEEKDAY_NAMES[d.getDay()] + ', ' + dataFmt);
+    var totNecR = 0, totFaltaR = 0, totSobraR = 0;
     var linhas = lista.length === 0
-      ? '<tr><td colspan="5" style="padding:14px;text-align:center;color:#727784;">Nenhum material necessário para este período.</td></tr>'
+      ? '<tr><td colspan="6" style="padding:14px;text-align:center;color:#727784;">Nenhum material necessário para este período.</td></tr>'
       : lista.map(function(m){
           var key = m.produto + '|' + m.cor;
           var emEstoque = estoqueHoje[key] !== undefined ? estoqueHoje[key] : 0;
           var faltando = Math.max(0, m.qtd - (Number(emEstoque) || 0));
+          var sobrando = Math.max(0, (Number(emEstoque) || 0) - m.qtd);
+          totNecR += m.qtd; totFaltaR += faltando; totSobraR += sobrando;
           return '<tr>' +
             '<td style="padding:10px;border-bottom:1px solid #e2e2e5;">' + escapeHtml(m.produto) + '</td>' +
             '<td style="padding:10px;border-bottom:1px solid #e2e2e5;">' + escapeHtml(m.cor || '-') + '</td>' +
             '<td style="padding:10px;border-bottom:1px solid #e2e2e5;text-align:center;">' + m.qtd + '</td>' +
             '<td style="padding:10px;border-bottom:1px solid #e2e2e5;text-align:center;">' + emEstoque + '</td>' +
             '<td style="padding:10px;border-bottom:1px solid #e2e2e5;text-align:center;font-weight:700;color:' + (faltando > 0 ? '#c62828' : '#1a1c1e') + ';">' + faltando + '</td>' +
+            '<td style="padding:10px;border-bottom:1px solid #e2e2e5;text-align:center;font-weight:700;color:' + (sobrando > 0 ? '#0277bd' : '#1a1c1e') + ';">' + sobrando + '</td>' +
           '</tr>';
-        }).join('');
+        }).join('') +
+        '<tr style="background:#f3f3f6;font-weight:700;">' +
+          '<td colspan="2" style="padding:10px;">Total (' + lista.length + (lista.length === 1 ? ' item' : ' itens') + ')</td>' +
+          '<td style="padding:10px;text-align:center;">' + totNecR + '</td>' +
+          '<td style="padding:10px;"></td>' +
+          '<td style="padding:10px;text-align:center;color:' + (totFaltaR > 0 ? '#c62828' : '#1a1c1e') + ';">' + totFaltaR + '</td>' +
+          '<td style="padding:10px;text-align:center;color:' + (totSobraR > 0 ? '#0277bd' : '#1a1c1e') + ';">' + totSobraR + '</td>' +
+        '</tr>';
 
     document.getElementById('relatorio-material-print').innerHTML =
       '<div style="font-family:Inter,sans-serif;color:#1a1c1e;max-width:680px;margin:0 auto;">' +
@@ -5233,6 +5257,7 @@
             '<th style="padding:10px;border-bottom:2px solid #c2c6d4;text-align:center;">Necessário</th>' +
             '<th style="padding:10px;border-bottom:2px solid #c2c6d4;text-align:center;">Em estoque</th>' +
             '<th style="padding:10px;border-bottom:2px solid #c2c6d4;text-align:center;">Faltando</th>' +
+            '<th style="padding:10px;border-bottom:2px solid #c2c6d4;text-align:center;">Sobrando</th>' +
           '</tr></thead>' +
           '<tbody>' + linhas + '</tbody>' +
         '</table>' +

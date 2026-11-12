@@ -204,16 +204,28 @@
     .btn-primary, .btn-accent, .btn-outline { min-height: 42px; }
 
     /* cabeçalho do topo: menu à esquerda, logo no centro, ícones à direita */
-    body > div > header { position: sticky; min-height: 60px; padding: 8px 10px !important; }
+    body > div > header { position: fixed !important; top: 0; left: 0; right: 0; z-index: 45 !important; min-height: calc(60px + env(safe-area-inset-top)); padding: calc(8px + env(safe-area-inset-top)) 10px 8px !important; background: #0a1224 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; box-shadow: 0 4px 18px rgba(0,0,0,0.45) !important; }
+    main { padding-top: calc(76px + env(safe-area-inset-top)) !important; }
+    #sidebar { z-index: 50 !important; padding-top: calc(16px + env(safe-area-inset-top)) !important; }
+    .sidebar-backdrop { z-index: 48 !important; }
+    #btn-ajuda { display: none !important; }
+    .busca-mobile { position: absolute; left: 0; right: 0; top: 100%; display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: #0a1224; border-bottom: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 18px rgba(0,0,0,0.45); }
+    .busca-mobile.hidden { display: none; }
+    .busca-mobile input { flex: 1; min-width: 0; height: 42px; padding: 0 12px; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(245,179,1,0.35); color: #fff; outline: none; }
+    .busca-mobile button { width: 42px; height: 42px; flex: none; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(255,255,255,0.05); border: 0; color: #cbd5e1; }
+    .menu-usuario { top: calc(64px + env(safe-area-inset-top)); }
+    .tela-acesso { padding-top: calc(16px + env(safe-area-inset-top)); }
     #topbar-esq { width: auto !important; max-width: none !important; flex: 0 0 auto; gap: 0 !important; }
     #topbar-esq #btn-hamburger { margin-left: 0; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
-    #topbar-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; pointer-events: none; }
+    #topbar-logo { position: absolute; left: 50%; top: calc(env(safe-area-inset-top) + 34px); transform: translate(-50%, -50%); display: flex; align-items: center; pointer-events: none; }
     #topbar-logo img { height: 40px; max-width: 120px; }
     #topbar-dir { gap: 2px !important; }
     #topbar-dir > button { width: 40px; height: 40px; padding: 0 !important; display: flex; align-items: center; justify-content: center; }
     #topbar-dir #btn-usuario-mobile { width: 36px; height: 36px; margin-left: 2px; }
 
     /* cabeçalhos e cartões de resumo mais compactos */
+    #view-pedidos > div:first-child > div:first-child > div:first-child, #view-relatorio > div:first-child > div:first-child > div:first-child { display: none; }
+    main select, main .relative:has(> select) { max-width: 100%; }
     section.view > div:first-child p.text-body-sm, section.view > div:first-child p.text-body-md, section.view > div:first-child p.font-body-sm, section.view > div:first-child p.font-body-md { display: none; }
     #vendas-kpi-cards, #dash-cards, #caixa-cards, #dados-status-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
     #vendas-kpi-cards > div, #dash-cards > div, #caixa-cards > div, #dados-status-cards > div { padding: 12px !important; min-width: 0; }
@@ -237,7 +249,7 @@
 
     /* janelas (modais) ocupam a tela inteira */
     .modal-overlay { padding: 0; align-items: flex-start; }
-    .modal-overlay > div { margin: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 100%; border-radius: 0 !important; padding: 18px 16px 24px !important; overflow: visible !important; }
+    .modal-overlay > div { margin: 0 !important; width: 100% !important; max-width: 100% !important; min-height: 100%; border-radius: 0 !important; padding: calc(18px + env(safe-area-inset-top)) 16px 24px !important; overflow: visible !important; }
     #pedido-acoes { position: sticky; bottom: 0; z-index: 5; margin: 20px -16px -24px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: rgba(9,16,32,0.97); border-top: 1px solid rgba(255,255,255,0.1); gap: 8px; }
     #pedido-acoes > button { flex: 1 1 auto; justify-content: center; }
     #pedido-acoes #btn-cancel-pedido { display: none; }
@@ -509,6 +521,7 @@
 </div>
 </div>
 <div class="flex items-center gap-2 sm:gap-4 shrink-0" id="topbar-dir">
+<button class="md:hidden p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-white/[0.06]" id="btn-busca-mobile" title="Buscar vendas"><span class="material-symbols-outlined text-[22px]">search</span></button>
 <button class="relative p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all" id="btn-notificacoes" title="Alertas">
 <span class="material-symbols-outlined text-[20px]">notifications</span>
 <span class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-solar-gold ring-2 ring-midnight-void shadow-[0_0_8px_rgba(245,179,1,0.9)]" id="notif-dot"></span>
@@ -530,6 +543,7 @@
 <span class="material-symbols-outlined">account_circle</span>
 </div>
 </div>
+<div id="busca-mobile" class="busca-mobile hidden md:hidden"><input type="search" id="busca-mobile-input" enterkeyhint="search" placeholder="Buscar cliente ou produto..." autocomplete="off"><button type="button" id="busca-mobile-fechar" aria-label="Fechar busca"><span class="material-symbols-outlined">close</span></button></div>
 </header>
 
 <!-- Canvas -->
@@ -1617,6 +1631,7 @@
 <div id="sync-pill" class="sync-pill hidden"></div>
 <div id="menu-usuario" class="menu-usuario hidden">
 <div class="mu-topo"><b id="user-nome-menu"></b><span id="user-papel-menu"></span></div>
+<button type="button" id="menu-ajuda"><span class="material-symbols-outlined">help</span>Ajuda</button>
 <button type="button" id="menu-sincronizar"><span class="material-symbols-outlined">sync</span>Sincronizar agora</button>
 <button type="button" id="menu-sair"><span class="material-symbols-outlined">logout</span>Sair</button>
 </div>
@@ -2041,6 +2056,24 @@
       renderPedidos();
     }, 50);
   });
+
+  /* Busca no celular */
+  (function(){
+    var barra = document.getElementById('busca-mobile'), inp = document.getElementById('busca-mobile-input');
+    function buscar(q){
+      goToView('pedidos');
+      setTimeout(function(){ document.getElementById('filtro-busca').value = q; pedidosPage = 1; renderPedidos(); }, 50);
+    }
+    document.getElementById('btn-busca-mobile').addEventListener('click', function(){
+      barra.classList.toggle('hidden');
+      if (!barra.classList.contains('hidden')){ inp.value = document.getElementById('filtro-busca').value || ''; inp.focus(); }
+    });
+    document.getElementById('busca-mobile-fechar').addEventListener('click', function(){ barra.classList.add('hidden'); });
+    var t = null;
+    inp.addEventListener('input', function(){ clearTimeout(t); t = setTimeout(function(){ buscar(inp.value); }, 400); });
+    inp.addEventListener('keydown', function(e){ if (e.key === 'Enter'){ e.preventDefault(); clearTimeout(t); buscar(inp.value); inp.blur(); barra.classList.add('hidden'); } });
+    document.getElementById('menu-ajuda').addEventListener('click', function(){ document.getElementById('menu-usuario').classList.add('hidden'); openModal('modal-ajuda'); });
+  })();
 
   /* ---------------- GENERIC MODAL HELPERS ---------------- */
   function openModal(id){ document.getElementById(id).classList.remove('hidden'); }
